@@ -127,8 +127,8 @@ class FormForForm(forms.ModelForm):
         instance and its related field model instances.
         """
         self.form = form
-        self.form_fields = form.fields.visible()
-        initial = kwargs.pop("initial", {})
+        self.form_fields = self.get_form_fields()
+        initial = self.get_initial(kwargs.pop("initial", {}))
         # If a FormEntry instance is given to edit, stores it's field
         # values for using as initial data.
         field_entries = {}
@@ -197,6 +197,39 @@ class FormForForm(forms.ModelForm):
             if field.placeholder_text and not field.default:
                 text = field.placeholder_text
                 self.fields[field_key].widget.attrs["placeholder"] = text
+
+    def get_form_fields(self):
+        """
+        Return form fields for this form.
+
+        The return value should be an iterable containing instances of
+        Fields (as defined in this package's models.py).
+
+        Returns self.form.fields.visible() by default, which you
+        almost always want to extend, instead of overwrite, because
+        else any fields defined in the admin won't appear in the form.
+
+        The default return type is a Queryset instance, so you might
+        want to cast it to a list (by using list(instance) for
+        easier appending.
+        """
+        return self.form.fields.visible()
+
+    def get_initial(self, initial):
+        """
+        Return initial form data as a dict.
+
+        The returned dictionary should contain 'field': 'value' pairs,
+        where 'field' corresponds with the slug of a certain field.
+
+        Note that any initial argument you define here overwrite the
+        initial value defined in the admin interface.
+
+        Keyword arguments:
+        initial -- Dictionary of initial data, as should also be
+                   returned by this method.
+        """
+        return initial
 
     def save(self, **kwargs):
         """
