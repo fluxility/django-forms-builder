@@ -162,6 +162,10 @@ module.
 * ``FORMS_BUILDER_EMAIL_FAIL_SILENTLY`` - Bool used for Django's
   ``fail_silently`` argument when sending email.
   Defaults to ``settings.DEBUG``.
+* ``FORMS_BUILDER_FORM_FOR_FORM_CLASS`` - Module string pointing to the
+  import path of the FormAsForm class. You only need this if you want
+  to supply your own FormAsForm class. Defaults to
+  `forms_builder.forms.forms.FormForForm`.
 
 
 Custom Fields and Widgets
