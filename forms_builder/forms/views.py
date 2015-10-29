@@ -12,11 +12,10 @@ from django.utils.http import urlquote
 from django.views.generic.base import TemplateView
 from email_extras.utils import send_mail_template
 
-from forms_builder.forms.forms import FormForForm
 from forms_builder.forms.models import Form
 from forms_builder.forms.settings import EMAIL_FAIL_SILENTLY
 from forms_builder.forms.signals import form_invalid, form_valid
-from forms_builder.forms.utils import split_choices
+from forms_builder.forms.utils import split_choices, get_form_for_form_class
 
 
 class FormDetail(TemplateView):
@@ -41,7 +40,7 @@ class FormDetail(TemplateView):
     def post(self, request, *args, **kwargs):
         published = Form.objects.published(for_user=request.user)
         form = get_object_or_404(published, slug=kwargs["slug"])
-        form_for_form = FormForForm(form, RequestContext(request),
+        form_for_form = get_form_for_form_class()(form, RequestContext(request),
                                     request.POST or None,
                                     request.FILES or None)
         if not form_for_form.is_valid():

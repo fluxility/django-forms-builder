@@ -4,6 +4,8 @@ from django.template.defaultfilters import slugify as django_slugify
 from importlib import import_module
 from unidecode import unidecode
 
+from .settings import FORM_FOR_FORM_CLASS
+
 
 # Timezone support with fallback.
 try:
@@ -61,3 +63,7 @@ def import_attr(path):
     """
     module_path, attr_name = path.rsplit(".", 1)
     return getattr(import_module(module_path), attr_name)
+
+
+def get_form_for_form_class():
+    return import_attr(FORM_FOR_FORM_CLASS)

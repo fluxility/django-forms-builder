@@ -54,3 +54,5 @@ EMAIL_FAIL_SILENTLY = getattr(settings, "FORMS_BUILDER_EMAIL_FAIL_SILENTLY",
 
 # Django SITE_ID - need a default since no longer provided in settings.py.
 SITE_ID = getattr(settings, "SITE_ID", 1)
+
+FORM_FOR_FORM_CLASS = getattr(settings, "FORM_FOR_FORM_CLASS", "forms_builder.forms.forms.FormForForm")

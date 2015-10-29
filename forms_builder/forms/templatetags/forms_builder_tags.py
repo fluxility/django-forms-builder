@@ -4,8 +4,8 @@ from future.builtins import str
 from django import template
 from django.template.loader import get_template
 
-from forms_builder.forms.forms import FormForForm
 from forms_builder.forms.models import Form
+from forms_builder.forms.utils import get_form_for_form_class
 
 
 register = template.Library()
@@ -35,7 +35,7 @@ class BuiltFormNode(template.Node):
         t = get_template("forms/includes/built_form.html")
         context["form"] = form
         form_args = (form, context, post or None, files or None)
-        context["form_for_form"] = FormForForm(*form_args)
+        context["form_for_form"] = get_form_for_form_class()(*form_args)
         return t.render(context)
 
 
